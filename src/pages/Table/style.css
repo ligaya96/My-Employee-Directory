@@ -1,0 +1,13 @@
+/* the table CSS  */
+.table-responsive {
+    height:400px;  
+    width:100%;
+    overflow:scroll;
+}
+tbody tr {
+    background: darkblue;  
+    color: lightblue;
+}
+thead {
+    background-color: violet;
+}

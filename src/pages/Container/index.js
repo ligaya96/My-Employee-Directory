@@ -4,6 +4,7 @@ import Table from "../Table";
 import Alert from "../Alert";
 import API from "../../api/api.js";
 import Search from "../Searchemployee";
+import Footer from "../Footer";
 
 class Container extends Component {
     state = {
@@ -29,9 +30,9 @@ componentDidMount(){
 }
 
 // Handle input for search 
-handleInputChange = async (events) => {
+handleInputChange = async(events) => {
   const values = events.target.values;
-  await this.setState({ search: values });
+  this.setState({ search: values });
   this.filterEmployees(values);
 };
 //Filter employees 
@@ -115,6 +116,7 @@ render() {
               style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}>
               {this.state.error}
             </Alert>
+            <Footer/>
           </div>
         </div>
       </div>

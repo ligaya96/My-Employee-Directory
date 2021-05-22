@@ -1,7 +1,7 @@
 //  search name and DOB using props
 import React from "react";
 import "./style.css";
-const Search = (props) => {
+function Search(props){
     return(
         <form>
             <div className="input-field">

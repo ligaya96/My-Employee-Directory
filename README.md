@@ -4,9 +4,10 @@ This App will allow the user to view their entire employee directory and view em
 React 
 Axios
 # link
-Link to deployed : 
+ <a href=""> Employee Directory </a>
+
 # Author 
 Ligaya Herndon
 
 # ScreenShot
-<img>./IMG/employeedirctory.png. alt= "screenshot" </img>
+<img src= "./IMG/employeedirctory.png" alt= "screenshot"></img>

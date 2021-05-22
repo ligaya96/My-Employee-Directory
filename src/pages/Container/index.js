@@ -8,14 +8,14 @@ import Search from "../Searchemployee";
 class Container extends Component {
     state = {
         search:"",
-        employees: [],
+        employees: [{}],
         sortingEmp: "ASC",
         error: "",
         filteredEmployees: [],
     };
-};
-//Component Mounts, API calls to get employess
-ComponentDidMount = () => { 
+
+// Component Mounts, API calls to get employess
+componentDidMount(){ 
    API.getEmployeeList()
      .then((res) =>
      this.setState({
@@ -27,49 +27,65 @@ ComponentDidMount = () => {
     this.setState({ error: err.message });
     });
 }
+
 // Handle input for search 
 handleInputChange = async (events) => {
-    if (events.target.name === "search"){
-        const Searchname = events.target.value.tolowercase();
-        this.setState({
-            search:Searchname
-        })
-    }
-}
-//Filter by first name.
-filterbyFirst = () => {
-    const filterEmployees = this.state.results.sort((a,b) =>{
-        if (b.name.first > a.name.first) {
-            return -1
-        }
-        if (a.name.first > b.name.first){
-            return 1
-        }return 0;
-    });
-    if (this.state.sortingEmp === "DESC"){
-        filterEmployees.reverse();
-        this.setState({ sortingEmp: "ASC"});
-    }
-    else { this.setState({ sortingEmp: "DESC"});
-    } this.setState({results: sortingEmp})
-}
-//Filter by Last Name
-filterbyLast = () => {
-    const filterEmployees = this.state.results.sort((a,b) =>{
-        if (b.name.last > a.name.last) {
-            return -1
-        }
-        if (a.name.last > b.name.last){
-            return 1
-        }return 0;
-    });
-    if (this.state.sortingEmp === "DESC"){
-        filterEmployees.reverse();
-        this.setState({ sortingEmp: "ASC"});
-    }
-    else { this.setState({ sortingEmp: "DESC"});
-    } this.setState({results: sortingEmp})
-} 
+  const values = events.target.values;
+  await this.setState({ search: values });
+  this.filterEmployees(values);
+};
+//Filter employees 
+filterEmployees = (values) => {
+  this.setState({
+      filteredEmployees: this.state.employees.filter((employees) => {
+          return (
+              employees.name.last.toLowerCase().includes(values.toLowerCase().trim()) ||
+              employees.name.first.toLowerCase().includes(values.toLowerCase().trim())
+          );
+      }),
+  });
+  this.errorMessage(this.state.filteredEmployees);
+};
+// allows search to filter employees by last name and first. 
+sortByName = (key) => {
+  let employeeList;
+  let direction;
+
+  switch (key) {
+      case 'last':
+          if (this.state.sortDirection === 'ASC') {
+            employeeList = this.state.filteredEmployees.sort((x, y) =>
+                  x.name.last > y.name.last ? 1 : -1
+              );
+              direction = 'DSC';
+          } else {
+            employeeList  = this.state.filteredEmployees.sort((x, y) =>
+                  x.name.last < y.name.ast ? 1 : -1
+              );
+              direction = 'ASC';
+          }
+          break;
+      case 'first':
+          if (this.state.sortDirection === 'ASC') {
+            employeeList  = this.state.filteredEmployees.sort((x, y) =>
+                  x.name.first > y.name.first ? 1 : -1
+              );
+              direction = 'DSC';
+          } else {
+            employeeList  = this.state.filteredEmployees.sort((x, y) =>
+                  x.name.first < y.name.first ? 1 : -1
+              );
+              direction = 'ASC';
+          }
+          break;
+      default:
+          break;
+  }
+  this.setState({
+      filterEmployees: employeeList,
+      sortDirection: direction,
+  });
+};
  // Error Message
  errorMessage = (values) => {
     if (values.length === 0) {
@@ -80,32 +96,30 @@ filterbyLast = () => {
     }
 };
 // Render
-render = () => {
-    return (
-        <div className="row">
-          <div className="col">
-            <div className="container">
-              <Search
-                value={this.state.search}
-                handleInputChange={this.handleInputChange}
+render() {
+  return (
+      <div className="row">
+        <div className="col">
+          <div className="container">
+            <Search value={this.state.search} handleInputChange={this.handleInputChange}/>
+            <div className="fixed-table-container table-responsive-md">
+              <Table
+                state={this.state}
+                filterEmployees={this.filterEmployees}
+                sortName={this.sortName}
               />
-              <div className="fixed-table-container table-responsive-md">
-                <Table
-                  state={this.state}
-                  filterEmployees={this.filterEmployees}
-                  sortName={this.sortName}
-                />
-              </div>
-              {/* {//Alert for any API Errors} */}
-              <Alert
-                type="warning"
-                style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}
-              >
-                {this.state.error}
-              </Alert>
             </div>
+            {/* {//Alert for any API Errors} */}
+            <Alert
+              type="warning"
+              style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}>
+              {this.state.error}
+            </Alert>
           </div>
         </div>
-      );
+      </div>
+    );
 }
+};
+
 export default Container;

@@ -8,8 +8,8 @@ const Search = (props) => {
              <input
                value={props.search}
                onChange={props.handleInputChange}
-              name="search"
-              type="text"
+               name="search"
+                type="text"
                className="form-control"
               placeholder="Enter here to find a name"
               id="search"

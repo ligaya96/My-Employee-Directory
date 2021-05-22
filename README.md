@@ -5,7 +5,8 @@ This App will allow the user to view their entire employee directory and view em
 <li>Create React APP</li>
 <li>Axios</li>
 </ul>
-# link
+
+# Link
  <a href="https://ligaya96.github.io/My-Employee-Directory/"> Ligayas Employee Directory </a>
 
 # Author 

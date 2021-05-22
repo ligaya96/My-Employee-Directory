@@ -51,23 +51,17 @@ filterEmployees = (values) => {
 sortByName = (key) => {
   let employeeList;
   let direction;
-
   switch (key) {
       case 'last':
-          if (this.state.sortDirection === 'ASC') {
-            employeeList = this.state.filteredEmployees.sort((x, y) =>
-                  x.name.last > y.name.last ? 1 : -1
-              );
+          if (this.state.sortingEmp === 'ASC') {employeeList = this.state.filteredEmployees.sort((x, y) => x.name.last > y.name.last ? 1 : -1  );
               direction = 'DSC';
           } else {
-            employeeList  = this.state.filteredEmployees.sort((x, y) =>
-                  x.name.last < y.name.ast ? 1 : -1
-              );
+            employeeList  = this.state.filteredEmployees.sort((x, y) => x.name.last < y.name.ast ? 1 : -1 );
               direction = 'ASC';
           }
           break;
       case 'first':
-          if (this.state.sortDirection === 'ASC') {
+          if (this.state.sortingEmp === 'ASC') {
             employeeList  = this.state.filteredEmployees.sort((x, y) =>
                   x.name.first > y.name.first ? 1 : -1
               );
@@ -83,8 +77,8 @@ sortByName = (key) => {
           break;
   }
   this.setState({
-      filterEmployees: employeeList,
-      sortDirection: direction,
+      filteredEmployees: employeeList,
+      sortingEmp: direction,
   });
 };
  // Error Message
